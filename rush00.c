@@ -2,7 +2,13 @@
 
 int    print_mid(int a , int b){
     int localA = a;
-    int localB = b - 2;
+    int localB;
+    if(b >= 3){
+        localB = b - 2;
+    } else {
+        localB = 0;
+    }
+    
     
     while(localB != 0){
         while(localA != 0){
@@ -41,13 +47,13 @@ int	print_chars(int a, int b, int rep)
     			write (1, &"*", 1);
     		}
     		else if (localA == 1){
-    		    if(rep == 0){
+    		    if(rep == 0 ){
     		        write (1, &"\\", 1);
     		    } else if(rep != 0){
     		    	write (1, &"/", 1);
     		    }
     			
-    			if(rep == 0){
+    			if(rep == 0 && localB > 2){
     			    write (1, &"\n", 1);
     			    print_mid(a,b);
     			}
@@ -58,11 +64,12 @@ int	print_chars(int a, int b, int rep)
 
 int mx(int a, int b){
     int rep = 0;
+    
     print_chars(a, b, rep);
 }
 
 int	main(void)
 {
-	mx(6,3);
+	mx(1,5);
 	return (0);
 }
