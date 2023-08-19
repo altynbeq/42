@@ -2,18 +2,23 @@
 
 int    print_mid(int a , int b){
     int localA = a;
-    int localB = b;
+    int localB = b - 2;
     
-    while(localA != 0){
-        if(localA == a || localA == 1){
-            write (1, &"*", 1);
-            localA--;
-        } else{
-            write (1, &" ", 1);
-            localA--;
+    while(localB != 0){
+        while(localA != 0){
+            if(localA == a || localA == 1){
+                write (1, &"*", 1);
+                localA--;
+            } else{
+                write (1, &" ", 1);
+                localA--;
+            }
         }
+        localA = a;
+        localB--;
+        write (1, &"\n", 1);
+        
     }
-    write (1, &"\n", 1);
     int rep = 1;
     print_chars(a,b, rep);
     
@@ -58,6 +63,6 @@ int mx(int a, int b){
 
 int	main(void)
 {
-	mx(10,6);
+	mx(6,3);
 	return (0);
 }
