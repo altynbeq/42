@@ -1,59 +1,80 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akuat <akuat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/27 10:47:14 by akuat             #+#    #+#             */
-/*   Updated: 2023/08/28 11:39:53 by akuat            ###   ########.fr       */
+/*   Created: 2023/08/27 16:02:18 by akuat             #+#    #+#             */
+/*   Updated: 2023/08/28 12:53:15 by akuat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include <stdio.h>
-
-int	ft_atoi(char *str)
+#include <unistd.h>
+void	base_convertion(int nbr, int type)
 {
-	int	num;
-	int	sign;
+	char	data[100];
+	int		current_int;
+	int		i;
+	int		j;
 
-	sign = 0;
-	num = 0;
-	while ((*str == ' ' || *str == '\t' || *str == '\n' || 
-			*str == '\f' || *str == '\v' || *str == '\r'))
-		str++;
-	while (*str == '-' || *str == '+')
+	i = 0;
+	j = 0;
+	while (nbr > 0)
 	{
-		if (*str == '-')
-			sign--;
-		else if (*str == '+')
-			sign++;
-		str++;
+		current_int = nbr % type;
+		if (current_int >= 0 && current_int <= 9)
+			data[i] = current_int + '0';
+		else if (current_int >= 10 && current_int <= 15)
+			data[i] = current_int - 10 + 'A';
+		nbr /= type;
+		i++;
 	}
-	while (*str >= '0' && *str <= '9')
+	data[i] = '\0';
+	while (j < i)
 	{
-		num = num * 10 + (*str - '0');
-		str++;
+		write(1, &data[j], 1);
+		j++;
 	}
-	if (sign < 0)
-		num = -num;
-	return (num);
+}
+
+void	ft_putnbr_base(int nbr, char *base)
+{
+	int		i;
+	int		j;
+	int		valid;
+
+	i = 0;
+	while (base[i] != '\0')
+		i++;
+	base_convertion(nbr, i);
 }
 
 int main()
 {
-    char test1[] = " ---+--+1234ab567";
-    char test2[] = "   +42";
-    char test3[] = "   -9999abc";
-    char test4[] = "12345";
-    char test5[] = "   ";
-    
-    printf("atoi(%s) = %d\n", test1, ft_atoi(test1));
-    printf("atoi(%s) = %d\n", test2, ft_atoi(test2));
-    printf("atoi(%s) = %d\n", test3, ft_atoi(test3));
-    printf("atoi(%s) = %d\n", test4, ft_atoi(test4));
-    printf("atoi(%s) = %d\n", test5, ft_atoi(test5));
-    
+    // Test cases
+    int num = 123;
+    char base_decimal[] = "0123456789";
+    char base_binary[] = "01";
+    char base_hex[] = "0123456789ABCDEF";
+    char base_octal[] = "poneyvif";
+
+    printf("Decimal: %d\n", num);
+    ft_putnbr_base(num, base_decimal);
+    printf("\n");
+
+    printf("Binary: %d\n", num);
+    ft_putnbr_base(num, base_binary);
+    printf("\n");
+
+    printf("Hexadecimal: %d\n", num);
+    ft_putnbr_base(num, base_hex);
+    printf("\n");
+
+    printf("Octal: %d\n", num);
+    ft_putnbr_base(num, base_octal);
+    printf("\n");
+
     return 0;
 }
