@@ -1,6 +1,30 @@
 #include <stdio.h>
 #include <unistd.h>
 
+int	valid_check(char *base)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (base[i] != '\0')
+	{
+		if (base[i] == '-' || base[i] == '+')
+			return (0);
+		j = i + 1;
+		while (base[j] != '\0')
+		{
+			if (base[i] == base[j])
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	if (i < 2)
+		return (0);
+	return (1);
+}
+
 int ft_atoi(char *str)
 {
     int num;
@@ -29,37 +53,45 @@ int ft_atoi(char *str)
     return (num);
 }
 
-
-// void base_conversion(int nbr, int type) {
-    
-// }
-
-int ft_atoi_base(char *str, char *base) {
-    int length = 0;
-    int index = 0;
+int converter(int nbr, int type) {
     int result = 0;
-    
-    while(str[length] != '\0')
-        length++;
-    while(index < length){
-        int num = str[index] - '0';
-        result = result * 2 + num;
-        index++;
+    int base = 1;
+
+    while (nbr > 0) {
+        int digit = nbr % 10;
+        if (digit >= 0 && digit < type) {
+            result += digit * base;
+            base *= type;
+        } else {
+            return -1;
+        }
+
+        nbr /= 10;
     }
-    char ans;
-    if(result < 10){
-        ans = result + '0';
-    } else {
-        ans = result + 'A' - 10;
-    }
-    write(1, &ans, 1);
-    return (0);
+
+    return result;
+}
+
+int ft_atoi_base(char *str, char *base)
+{
+    int ans;
+    int type = 0;
+    ans = 0;
+    int valid = valid_check(base);
+    int decimal = ft_atoi(str);
+    while(base[type] != '\0')
+        type++;
+    if(valid == 0)
+        return ;
+    ans = converter(decimal, type);
+    return(ans);
 }
 
 int main() {
     char str1[] = "101010";
     char base1[] = "01";
-    int result1 = ft_atoi_base(str1, base1); // Should print: 42
-
+    int result1 = ft_atoi_base(str1, base1);// Should print: 42
+    
+    printf("Result: %d\n", result1); 
     return 0;
 }
