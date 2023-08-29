@@ -90,7 +90,9 @@ int ft_atoi_base(char *str, char *base)
 int main() {
     char str1[] = "101010";
     char base1[] = "01";
-    int result1 = ft_atoi_base(str1, base1);// Should print: 42
+    char str3[] = "1101";
+    char base3[] = "01";
+    int result1 = ft_atoi_base(str3, base3);// Should print: 42
     
     printf("Result: %d\n", result1); 
     return 0;
